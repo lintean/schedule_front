@@ -1,0 +1,127 @@
+.login_box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 745px;
+    margin: -175px -424px;
+    padding: 0 20px;
+}
+
+.clearfix:before, .clearfix:after {
+    content: "";
+    clear: both;
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+
+body {
+    background: url(../images/login_bg.jpg) no-repeat center center;
+    position: relative;
+}
+
+.login_box .version {
+    width: 345px;
+    min-height: 350px;
+    background: url(../images/login_bg.png) no-repeat right center;
+}
+
+.login_box .version .version_words {
+    width: 345px;
+    height: 350px;
+    position: relative;
+}
+
+.login_box .login_admin {
+    width: 400px;
+    padding-top: 33px;
+    height: 280px;
+}
+
+.fr {
+    float: right;
+}
+
+.login_btn {
+    display: block;
+    width: 280px;
+    height: 35px;
+    background-color: #2d6dc9;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin: 18px 0 0 120px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 35px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+.login_btn_a {
+    display: block;
+    width: 280px;
+    height: 35px;
+    background-color: #2d6dc9;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin: 18px 0 0 120px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 35px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+.fl {
+    float: left;
+}
+
+.login_box .login_admin input {
+    width: 250px;
+    height: 35px;
+    padding: 0 15px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 0;
+    color: #333333;
+    line-height: 35px;
+}
+
+.info_item_block>li>.item_hd {
+    float: left;
+    width: 108px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    color: #fff;
+    text-align: right;
+}
+
+.item_bd {
+    height: 35px;
+    padding-left: 120px;
+    position: relative;
+}
+
+.info_item_block>li {
+    margin-top: 12px;
+}
+
+.login_button{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 250px;
+}

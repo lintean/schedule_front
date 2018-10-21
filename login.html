@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>登陆注册</title>
+    <meta http-equiv="content-Type" content="text/html;charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="./css/normal.css">
+    <link type="text/css" rel="stylesheet" href="./css/login.css">
+</head>
+
+<body>
+    <div class="login_box clearfix">
+        <div class="version fl">
+            <div class="version_words"></div>
+        </div>
+        <section id="login_container" class="login_admin fr">
+            <h3 style="margin: 0 0 30px 150px; font-weight: normal; font-size: 20px;">在线排课 - 登录界面</h3>
+            <ul class="info_item_block">
+                <li class="clearfix">
+                    <span class="item_hd">登录账号</span>
+                    <div class="item_bd">
+                        <input type="text" v-model.trim="id" class="account_input check_field">
+                    </div>
+                </li>
+                <li class="clearfix">
+                    <span class="item_hd">登录密碼</span>
+                    <div class="item_bd">
+                        <input type="password" v-model="password" class="account_input check_field">
+                    </div>
+                </li>
+                <li v-if="status == 1" class="clearfix">
+                    <span class="item_hd">确认密码</span>
+                    <div class="item_bd">
+                        <input type="password" v-model="password_repeat" class="account_input check_field">
+                    </div>
+                </li>
+            </ul>
+            <button v-on:click="user" class="login_btn login_button">{{ status==0?login_message:register_message }}</button>
+            <a v-on:click="change_status" class="login_btn_a login_button">转到{{ status!=0?login_message:register_message }}</a>
+
+        </section>
+    </div>
+
+
+
+    <script src="./js/jquery-3.3.1.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/login.js"></script>
+</body>
+
+</html>

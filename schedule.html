@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>在线排课</title>
+    <meta http-equiv="content-Type" content="text/html;charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="./css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="./css/normal.css">
+    <link type="text/css" rel="stylesheet" href="./css/schedule.css">
+</head>
+
+<body>
+    <header>
+        <div style="height:50px; width:100%; background-color: #03a2ce">
+            <h1 style="height:30px; line-height:30px; font-size: 30px; color: white; position: absolute; left:50px; top:10px; margin: 0">在线排课</h1>
+        </div>
+    </header>
+    <section id="schedule_container" class="container">
+        <div class="col-md-8 nav_back">
+            <ul class="nav nav-tabs">
+                <li role="presentation" v-bind:class="[ status == 1 ? 'active' : '']"><a v-on:click="status = 1"> 导入文件</a></li>
+                <li role="presentation" v-bind:class="[ status == 2 ? 'active' : '']"><a v-on:click="status = 2"> 添加约束</a></li>
+                <li role="presentation" v-bind:class="[ status == 3 ? 'active' : '']"><a v-on:click="status = 3" > 时间安排</a></li>
+                <li role="presentation" v-bind:class="[ status == 4 ? 'active' : '']"><a v-on:click="status = 4" > 开始排课</a></li>
+                <li role="presentation" v-bind:class="[ status == 5 ? 'active' : '']"><a v-on:click="status = 5" > 导出课表</a></li>
+            </ul>
+        </div>
+
+
+        <section id="file_upload" v-if="status == 1" class="content_back">
+            <div class="update_top">
+                <span v-on:click="upload_teacher" class="btn btn-primary btn-md update_input_1">
+                    <span class="glyphicon glyphicon-upload"></span>
+                    上传教师数据
+                </span>
+                <input type="file" id="teacher" v-on:change="showPic('Teacher')" style="display: none">
+                <span v-on:click="upload_student" class="btn btn-primary btn-md update_input_2">
+                    <span class="glyphicon glyphicon-upload"></span>
+                    上传学生数据
+                </span>
+                <input type="file" id="student" v-on:change="showPic('Student')" style="display: none">
+            </div>
+
+            <div class="update_bottom">
+                <button v-on:click="upload" class="btn btn-primary btn-md">上传并到下一步</button>
+            </div>
+        </section>
+
+        <section id="input_msg" v-if="status == 2" class="content_back" style="top:75px;">
+            <ul class="info_item_block">
+                <li class="clearfix">
+                    <span >每周上课天数</span>
+                    <div class="item_bd">
+                        <input type="number" v-model.trim="day" class="account_input check_field">
+                    </div>
+                    
+                </li>
+                <li>
+                    <span >每天上课节数</span>
+                    <div class="item_bd">
+                        <input type="number" v-model.trim="course" class="account_input check_field">
+                    </div>
+                </li>
+                <li>
+                    <span >现有教室数量</span>
+                    <div class="item_bd">
+                        <input type="number" v-model.trim="classroom" class="account_input check_field">
+                    </div>
+                </li>
+                <li>
+                    <span >教室容纳数量</span>
+                    <div class="item_bd">
+                        <input type="number" v-model.trim="capacity" class="account_input check_field">
+                    </div>
+                </li>
+                <li>
+                    <span >行政班级数量</span>
+                    <div class="item_bd">
+                        <input type="number" v-model.trim="class_number" class="account_input check_field">
+                    </div>
+                </li>
+            </ul>
+
+            <div class="info_item_bottom">
+                <button v-on:click="limit" class="login_btn login_button">上传并到下一步</button>
+            </div>
+
+
+        </section>
+
+        <section id="edit_timetable" v-show="status == 3" class="content_back" style="top:50px;">
+            <div class="box_up">
+                    <div id="box_left" class="box_left">
+                            <select v-model="select_val">
+                                <option v-for="(value, key, index) in select_list" v-bind:value="key">{{value}}</option>
+                            </select>
+                            <table id="left_table_teacher" v-if="list_type == 0">
+                                <thead>
+                                    <tr>
+                                        <th>教师</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="teacher in teacher_list" v-on:click="loadlist(teacher.id, teacher.name, 1)">
+                                        <td>{{teacher.name}}</td>
+                                    </tr>
+                                </tbody>
+            
+                            </table>
+                            <table id="left_table_subject" v-if="list_type == 1">
+                                <thead>
+                                    <tr>
+                                        <th>学科</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="subject in subject_list" v-on:click="loadlist(subject.id, subject.subject_name, 0)">
+                                        <td>{{subject.subject_name}}</td>
+                                    </tr>
+                                </tbody>
+            
+                            </table>
+                        </div>
+                        
+                        <div class="box_right">
+                            <table v-show="onview == 1" >
+                                <thead>
+                                    <tr v-bind:style="{ height: cell_height + 'px', width: '100%', 'line-height': cell_height + 'px'  }">
+                                        <th v-bind:style="{ height: '100%', width: cell_width - 5 + 'px'}">
+                                        </th>
+                                        <th v-for="(list, index) in list_onview[0]"
+                                        v-bind:style="{ height: '100%', width: cell_width + 'px'}">
+                                        星期{{index + 1}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mytbody">
+                                    <tr v-for="(list, index) in list_onview"  
+                                    v-bind:style="{ height: cell_height + 'px', width: '100%', 'line-height': cell_height + 'px'  }">
+                                        <td v-bind:style="{ height: '100%', width: cell_width - 5 + 'px'}"
+                                        class="ist_item">第{{index}}节</td>
+                                        <td v-for="(item, key) in list" v-on:click="changeList(index, key, item)" 
+                                        v-bind:style="{ height: '100%', width: cell_width + 'px' }"  
+                                        v-bind:class="[ item == '1' ? 'red' : 'white' , 'list_item' ]"></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+            </div>
+            
+            <div class="box_bottom" v-show="onview == 1">
+                <button v-on:click="write_table" class="edit_button login_button">保存</button>
+                <button v-on:click="status = 4" class="edit_button login_button">下一步</button>
+            </div>
+        </section>
+
+        <section id="schedule" v-if="status == 4">
+            <button class="run_button absolute_center" v-on:click="run">开始排课吧</button>
+        </section>
+
+        <section id="output_result" v-show="status == 5" class="content_back">
+            <div class="left_contain" id="left_contain">
+                <div>
+                    <label for="teacher_click"><input type="radio" id="teacher_click" v-model="query_type" checked="checked"
+                            name="query" value="0" />学生</label>
+                    <label for="student_click"><input type="radio" id="student_click" v-model="query_type" name="query" value="1" />教师</label>
+                    <label for="classroom_click"><input type="radio" id="classroom_click" v-model="query_type" name="query"
+                            value="2" />教室</label>
+                </div>
+                <div>
+                    <input type="number" v-model.trim="query_number">
+                </div>
+                <div>
+                    <button v-on:click="query" class="login_button">查询</button>
+                </div>
+            </div>
+            <div class="box_right" id="right_contain">
+                    <table v-show="query_onview == 1" >
+                        <thead>
+                            <tr v-bind:style="{ height: cell_height + 'px', width: '100%', 'line-height': cell_height + 'px'  }">
+                                <th v-bind:style="{ height: '100%', width: cell_width - 5 + 'px'}"></th>
+                                <th v-for="(list, index) in schedule[0]"
+                                v-bind:style="{ height: '100%', width: cell_width + 'px'}">
+                                星期{{index + 1}}</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody_1">
+                            <tr v-for="(list, index) in schedule"  
+                            v-bind:style="{ height: cell_height + 'px', width: '100%', 'line-height': cell_height + 'px'}">
+                                <td v-bind:style="{ height: '100%', width: cell_width - 5 + 'px'}" class="ist_item">
+                                    第{{index}}节</td>
+                                <td v-for="(item, key) in list"
+                                v-bind:style="{ height: '100%', width: cell_width + 'px'}">
+                                {{item.split("  ")[0]}} | {{item.split("  ")[1]}}号教室</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+            </div>
+        
+        
+        </section>
+    </section>
+
+
+
+
+    <script src="./js/jquery-3.3.1.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/schedule.js"></script>
+</body>
+
+</html>
