@@ -156,8 +156,12 @@
             </div>
         </section>
 
-        <section id="schedule" v-if="status == 4">
-            <button class="run_button absolute_center" v-on:click="run">开始排课吧</button>
+        <section id="schedule" v-show="status == 4" class="content_back" style="top:50px;">
+            <h3 v-show="analysis_msg != ['还没好分析好呢']">排课预分析结果展示</h3>
+            <div id="schedule_msg">
+                <p v-for="row in analysis_msg">{{row}}</p>
+            </div>
+            <button class="run_button" v-on:click="run">开始排课吧</button>
         </section>
 
         <section id="output_result" v-show="status == 5" class="content_back">

@@ -23,7 +23,7 @@ var container = new Vue({
         },
         login:function(event){
             $.ajax({
-                url:"http://localhost:3000/users/login",
+                url:"http://110.64.87.155:3000/users/login",
                 type:"POST",
                 dataType:"json",
                 data:{
@@ -37,7 +37,7 @@ var container = new Vue({
         },
         register:function(event){
             $.ajax({
-                url:"http://localhost:3000/users/register",
+                url:"http://110.64.87.155:3000/users/register",
                 type:"POST",
                 dataType:"json",
                 data:{

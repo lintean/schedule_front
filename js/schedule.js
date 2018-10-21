@@ -20,7 +20,8 @@ var container = new Vue({
         cell_height:0,
         query_type:0,
         query_onview:0,
-        schedule:Array()
+        schedule:Array(),
+        analysis_msg:["还没好分析好呢"]
     },
     methods:{
         // ajax_success:function(data, callback){
@@ -35,7 +36,7 @@ var container = new Vue({
         },
         // register:function(event){
         //     $.ajax({
-        //         url:"http://localhost:3000/users/register",
+        //         url:"http://110.64.87.155:3000/users/register",
         //         type:"POST",
         //         data:{
         //             'id':this.id,
@@ -84,7 +85,7 @@ var container = new Vue({
             exceldata.append("myfile",student);
             $.ajax({
                 type: "POST",
-                url:'http://localhost:3000/users/upload',
+                url:'http://110.64.87.155:3000/users/upload',
                 data:exceldata,
                 cache: false,
                 contentType: false,
@@ -104,7 +105,7 @@ var container = new Vue({
         },
         limit:function(){
             $.ajax({
-                url:"http://localhost:3000/users/limit",
+                url:"http://110.64.87.155:3000/users/limit",
                 type:"POST",
                 data:{
                     'day':this.day,
@@ -126,96 +127,52 @@ var container = new Vue({
             })
         },
         loadlist:function(id,name,type){
+            $.ajax({
+                url:"http://110.64.87.155:3000/users/get_timetable",
+                type:"GET",
+                data:{
+                    'id':id,
+                    'name':name,
+                    'type':type,
+                },
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    if (data != null) {
+                        //load list_onview
+                        container.list_onview = data;
 
-            var data = [
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"],
-                ["1","1","1","1","1"]
-            ]
-
-            container.list_onview = data;
-
-            var height = (window.innerHeight - 200) / (container.list_onview.length + 1);
-            var width = (window.innerWidth - 200) / (container.list_onview[0].length + 1);
-
-            $('#mytbody').css('width', window.innerWidth - 200 + "px");
-            $('#mytbody').css('height', height * container.list_onview.length + "px");
-
-            container.cell_height = height;
-            container.cell_width = width;
-
-
-
-            // $('#mytbody>tr').css('width', '100%');
-            // $('#mytbody>tr').css('height', height + "px");
-
-            // $('#mytbody>tr>td').css('width', width);
-            // $('#mytbody>tr>td').css('height', '100%');
-
-            // $('.box_right>table>thead>tr>th').css('height', height + "px");
-            // $('.box_right>table>thead>tr>th').css('width', width + "px");
-
-
-            container.onview = 1;
-            container.onview_data = {
-                'id': id,
-                'name': name,
-                'type': type
-            }
-
-
-            // $.ajax({
-            //     url:"http://localhost:3000/users/get_timetable",
-            //     type:"GET",
-            //     data:{
-            //         'id':id,
-            //         'name':name,
-            //         'type':type,
-            //     },
-            //     crossDomain:true,
-            //     dataType:"json",
-            //     success:function(data){
-            //         if (data != null) {
-            //             //load list_onview
-            //             container.list_onview = data;
-
-            //             var height = (window.innerHeight - 200) / (container.list_onview.length + 1);
-            //             var width = (window.innerWidth - 200) / container.list_onview[0].length;
+                        var height = (window.innerHeight - 200) / (container.list_onview.length + 1);
+                        var width = (window.innerWidth - 200) / (container.list_onview[0].length + 1);
                         
-            //             container.cell_height = height;
-            //             container.cell_width = width;
+                        container.cell_height = height;
+                        container.cell_width = width;
 
-            //             $('#mytbody').css('width', window.innerWidth - 200 + "px");
-            //             $('#mytbody').css('height', height * container.list_onview.length + "px");
+                        $('#mytbody').css('width', window.innerWidth - 200 + "px");
+                        $('#mytbody').css('height', height * container.list_onview.length + "px");
                         
-            //             $('.box_right>table>thead>tr>th').css('height', height + "px");
-            //             $('.box_right>table>thead>tr>th').css('width', width + "px");
+                        // $('.box_right>table>thead>tr>th').css('height', height + "px");
+                        // $('.box_right>table>thead>tr>th').css('width', width + "px");
 
 
-            //             container.onview = 1;
-            //             container.onview_data = {
-            //                 'id': id,
-            //                 'name': name,
-            //                 'type': type
-            //             }
+                        container.onview = 1;
+                        container.onview_data = {
+                            'id': id,
+                            'name': name,
+                            'type': type
+                        }
 
 
-            //         } else {
-            //             alert("迷之失败");
-            //         }
-            //     },
-            //     error:this.ajax_error,
-            // })
+                    } else {
+                        alert("迷之失败");
+                    }
+                },
+                error:this.ajax_error,
+            })
         },
         write_table:function(){
             $.ajax({
-                url:"http://localhost:3000/users/write_timetable",
+                url:"http://110.64.87.155:3000/users/write_timetable",
                 type:"POST",
                 traditional:true,
                 data:{
@@ -247,7 +204,7 @@ var container = new Vue({
         },
         run:function(){
             $.ajax({
-                url:"http://localhost:3000/users/run",
+                url:"http://110.64.87.155:3000/users/run",
                 type:"GET",
                 data:null,
                 crossDomain:true,
@@ -265,95 +222,76 @@ var container = new Vue({
         },
         query:function(){
 
-            var data = [
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"],
-                ["语文  5","语文  5","语文  5","语文  5","语文  5"]
-            ]
-
-            container.schedule = data;
-
-            var height = (window.innerHeight - 200) / (container.schedule.length + 1);
-            var width = (window.innerWidth - 200) / (container.schedule[0].length + 1);
-
-            $('#mytbody_1').css('width', window.innerWidth - 200 + "px");
-            $('#mytbody_1').css('height', height * container.schedule.length + "px");
-
-            container.cell_height = height;
-            container.cell_width = width;
-
-            container.query_onview = 1;
-
-            // $.ajax({
-            //     url:"http://localhost:3000/users/get_schedule",
-            //     type:"POST",
-            //     data:{
-            //         'id': this.query_number,
-            //         'type': this.query_type
-            //     },
-            //     crossDomain:true,
-            //     dataType:"json",
-            //     success:function(data){
-            //         if (data['code'] == 0){
-            //             container.query_onview = 1;
+            $.ajax({
+                url:"http://110.64.87.155:3000/users/get_schedule",
+                type:"GET",
+                data:{
+                    'id': this.query_number,
+                    'type': this.query_type
+                },
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    if (data['code'] == 0){
+                        container.query_onview = 1;
             
-            //             container.schedule = data;
+                        container.schedule = data['schedule'];
             
-            //             var height = (window.innerHeight - 200) / (container.schedule.length + 1);
-            //             var width = (window.innerWidth - 200) / (container.schedule[0].length + 1);
+                        var height = (window.innerHeight - 200) / (container.schedule.length + 1);
+                        var width = (window.innerWidth - 200) / (container.schedule[0].length + 1);
             
-            //             $('#mytbody').css('width', window.innerWidth - 200 + "px");
-            //             $('#mytbody').css('height', height * container.schedule.length + "px");
+                        $('#mytbody').css('width', window.innerWidth - 220 + "px");
+                        $('#mytbody').css('height', height * container.schedule.length + "px");
             
-            //             container.cell_height = height;
-            //             container.cell_width = width;
-            //         }else{
-            //             alert(data['msg']);
-            //         }
-            //     },
-            //     error:this.ajax_error,
-            // })
+                        container.cell_height = height;
+                        container.cell_width = width;
+                    }else{
+                        alert(data['msg']);
+                    }
+                },
+                error:this.ajax_error,
+            })
         }
     },
     watch:{
         status:function(newStatus, oldStatus){
             if (newStatus == 3){
-                var data = {
-                    "subject_list": [
-                        {"id": 0,"subject_name": "语文"},
-                        {"id": 1,"subject_name": "数学"}
-                    ],
-                    "teacher_list": [
-                        {"id": 1,"name": "宁文瑞"},
-                        {"id": 2,"name": "吕三诗"}
-                    ]
-                }
 
-                container.subject_list = data['subject_list'];
-                container.teacher_list = data['teacher_list'];   
-
-                // $.ajax({
-                //     url:"http://localhost:3000/users/getlist",
-                //     type:"GET",
-                //     data:null,
-                //     crossDomain:true,
-                //     dataType:"json",
-                //     success:function(data){
-                //         if (data['subject_list'] != null || data['teacher_list'] != null){
-                //             container.subject_list = data['subject_list'];
-                //             container.teacher_list = data['teacher_list'];     
-                //         }else{
-                //             alert(data['msg']);
-                //         }
-                //     },
-                //     error:this.ajax_error,
-                // })  
+                $.ajax({
+                    url:"http://110.64.87.155:3000/users/getlist",
+                    type:"GET",
+                    data:null,
+                    crossDomain:true,
+                    dataType:"json",
+                    success:function(data){
+                        if (data['subject_list'] != null || data['teacher_list'] != null){
+                            container.subject_list = data['subject_list'];
+                            container.teacher_list = data['teacher_list'];     
+                        }else{
+                            alert(data['msg']);
+                        }
+                    },
+                    error:this.ajax_error,
+                })  
+            }
+            else
+            if (newStatus == 4){
+                $.ajax({
+                    url:"http://110.64.87.155:3000/users/get_analysis",
+                    type:"GET",
+                    data:null,
+                    crossDomain:true,
+                    dataType:"json",
+                    success:function(data){
+                        if (data['code'] == 0){
+                            alert("排课预分析完毕");
+                            container.analysis_msg = data['analysis'];
+                        }else{
+                            alert(data['msg']);
+                        }
+                    },
+                    error:this.ajax_error,
+                })  
             }
         },
         select_val:function(newVal, oldVal){
@@ -373,5 +311,7 @@ $(document).ready(function(){
     $('#left_table_subject>tbody').css('max-height', window.innerHeight - 300 + "px");
 
     $('#left_contain').css('height', window.innerHeight - 250 + "px");
+
+    $('#schedule_msg').css('height', window.innerHeight - 280 + "px");
     // $('#output_result .left_contain').css('height', window.innerHeight - 250 + "px");
 })

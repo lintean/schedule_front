@@ -378,7 +378,7 @@ body a {
     position: relative;
 }
 
-#mytbody>tr : first-child{
+#mytbody>tr:first-child{
     font-size: '16px'; 
     font-weight : blod
 }
@@ -416,9 +416,11 @@ body a {
 }
 
 .run_button{
+    position: relative;
     display: block;
-    width: 280px;
+    width: 250px;
     height: 40px;
+    margin: 20px auto 0 auto;
     background-color: #57baf5;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -432,6 +434,10 @@ body a {
     -ms-transition: all .5s;
     -o-transition: all .5s;
     transition: all .5s;
+
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
 
 #output_result{
@@ -500,12 +506,20 @@ body a {
     border-color: rgb(221,221,221);
 }
 
+#right_contain table thead tr{
+    display:flex;
+    flex-wrap: nowrap;
+    justify-content: left;
+}
+
 #mytbody_1{
     display: block;
 }
 
 #mytbody_1>tr{
-    display:block;
+    display:flex;
+    flex-wrap: nowrap;
+    justify-content: left;
     border: 0;
     border-bottom:1px solid gray; 
 }
@@ -521,7 +535,7 @@ body a {
     position: relative;
 }
 
-#mytbody_1>tr : first-child{
+#mytbody_1>tr:first-child{
     font-size: '16px'; 
     font-weight : blod
 }
@@ -539,5 +553,21 @@ body a {
     width: 150px
 }
 
+#schedule_msg{
+    width: 520px;
+    height:400px;
+    position: relative;
+    margin:0 auto;
+    overflow-y: scroll;
+    border: 1px solid gray
+}
 
+#schedule_msg p{
+    text-align: center
+}
+
+#schedule h2, #schedule h3{
+    text-align: center;
+    clear: both;
+}
 
