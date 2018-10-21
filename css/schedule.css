@@ -1,15 +1,19 @@
 .red{
     background-color: #1393b6dc;
+    /* background-image: url(../images/blue_cell.jpg); */
+    background-repeat: repeat;
 }
 
 .white{
     background-color: rgb(235, 45, 45);
+    /* background-image: url(../images/red_cell.jpg); */
+    background-repeat: repeat;
 }
 
 .list_item{
     width: 20px;
     height: 20px;
-    opacity: 0.7;
+    opacity: 0.5;
     background-clip: border-box
 }
 
@@ -347,8 +351,8 @@ body a {
 }
 
 .box_right>table{
-    background-image: url(../images/table_bg.jpg);
-    background-repeat: repeat;
+    /* background-image: url(../images/table_bg.jpg); */
+    /* background-repeat: repeat; */
     border: 2px solid gray;
     border-collapse: collapse;  
 }
@@ -524,6 +528,11 @@ body a {
 
 #right_contain{
     padding: 0 0 0 10px;
+}
+
+#right_contain table{
+    background-image: url(../images/table_bg.jpg); 
+    background-repeat: repeat;
 }
 
 #left_contain input{
