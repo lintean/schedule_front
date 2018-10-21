@@ -139,7 +139,7 @@
                                     <tr v-for="(list, index) in list_onview"  
                                     v-bind:style="{ height: cell_height + 'px', width: '100%', 'line-height': cell_height + 'px'  }">
                                         <td v-bind:style="{ height: '100%', width: cell_width - 5 + 'px'}"
-                                        class="ist_item">第{{index}}节</td>
+                                        class="ist_item">第{{index + 1}}节</td>
                                         <td v-for="(item, key) in list" v-on:click="changeList(index, key, item)" 
                                         v-bind:style="{ height: '100%', width: cell_width + 'px' }"  
                                         v-bind:class="[ item == '1' ? 'red' : 'white' , 'list_item' ]"></td>
@@ -194,10 +194,10 @@
                             <tr v-for="(list, index) in schedule"  
                             v-bind:style="{ height: cell_height + 'px', width: '100%', 'line-height': cell_height + 'px'}">
                                 <td v-bind:style="{ height: '100%', width: cell_width - 5 + 'px'}" class="ist_item">
-                                    第{{index}}节</td>
+                                    第{{index + 1}}节</td>
                                 <td v-for="(item, key) in list"
                                 v-bind:style="{ height: '100%', width: cell_width + 'px'}">
-                                {{item.split("  ")[0]}} | {{item.split("  ")[1]}}号教室</td>
+                                {{item.split("  ")[0]}} | {{item.split("  ")[1]}}{{schedule_msg}}</td>
                             </tr>
                         </tbody>
 

@@ -21,7 +21,8 @@ var container = new Vue({
         query_type:0,
         query_onview:0,
         schedule:Array(),
-        analysis_msg:["还没好分析好呢"]
+        analysis_msg:["还没好分析好呢"],
+        schedule_msg:"号教室",
     },
     methods:{
         // ajax_success:function(data, callback){
@@ -36,7 +37,7 @@ var container = new Vue({
         },
         // register:function(event){
         //     $.ajax({
-        //         url:"http://110.64.87.155:3000/users/register",
+        //         url:"http://localhost:3000/users/register",
         //         type:"POST",
         //         data:{
         //             'id':this.id,
@@ -85,7 +86,7 @@ var container = new Vue({
             exceldata.append("myfile",student);
             $.ajax({
                 type: "POST",
-                url:'http://110.64.87.155:3000/users/upload',
+                url:'http://localhost:3000/users/upload',
                 data:exceldata,
                 cache: false,
                 contentType: false,
@@ -105,7 +106,7 @@ var container = new Vue({
         },
         limit:function(){
             $.ajax({
-                url:"http://110.64.87.155:3000/users/limit",
+                url:"http://localhost:3000/users/limit",
                 type:"POST",
                 data:{
                     'day':this.day,
@@ -128,7 +129,7 @@ var container = new Vue({
         },
         loadlist:function(id,name,type){
             $.ajax({
-                url:"http://110.64.87.155:3000/users/get_timetable",
+                url:"http://localhost:3000/users/get_timetable",
                 type:"GET",
                 data:{
                     'id':id,
@@ -172,7 +173,7 @@ var container = new Vue({
         },
         write_table:function(){
             $.ajax({
-                url:"http://110.64.87.155:3000/users/write_timetable",
+                url:"http://localhost:3000/users/write_timetable",
                 type:"POST",
                 traditional:true,
                 data:{
@@ -204,7 +205,7 @@ var container = new Vue({
         },
         run:function(){
             $.ajax({
-                url:"http://110.64.87.155:3000/users/run",
+                url:"http://localhost:3000/users/run",
                 type:"GET",
                 data:null,
                 crossDomain:true,
@@ -221,9 +222,9 @@ var container = new Vue({
             })
         },
         query:function(){
-
+            
             $.ajax({
-                url:"http://110.64.87.155:3000/users/get_schedule",
+                url:"http://localhost:3000/users/get_schedule",
                 type:"GET",
                 data:{
                     'id': this.query_number,
@@ -233,6 +234,9 @@ var container = new Vue({
                 dataType:"json",
                 success:function(data){
                     if (data['code'] == 0){
+                        if (container.query_type == 2) container.schedule_msg = "";
+                        else container.schedule_msg = "号教室";
+
                         container.query_onview = 1;
             
                         container.schedule = data['schedule'];
@@ -258,7 +262,7 @@ var container = new Vue({
             if (newStatus == 3){
 
                 $.ajax({
-                    url:"http://110.64.87.155:3000/users/getlist",
+                    url:"http://localhost:3000/users/getlist",
                     type:"GET",
                     data:null,
                     crossDomain:true,
@@ -277,7 +281,7 @@ var container = new Vue({
             else
             if (newStatus == 4){
                 $.ajax({
-                    url:"http://110.64.87.155:3000/users/get_analysis",
+                    url:"http://localhost:3000/users/get_analysis",
                     type:"GET",
                     data:null,
                     crossDomain:true,
