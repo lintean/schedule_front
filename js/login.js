@@ -1,6 +1,7 @@
 var container = new Vue({
     el:'#login_container',
     data: {
+        host:"localhost:3000",
         status: 1, //0为登陆，1为注册
         id: null,
         password: null,
@@ -23,7 +24,7 @@ var container = new Vue({
         },
         login:function(event){
             $.ajax({
-                url:"http://110.64.87.155:3000/users/login",
+                url:"http://" + container.host + "/users/login",
                 type:"POST",
                 dataType:"json",
                 data:{
@@ -37,7 +38,7 @@ var container = new Vue({
         },
         register:function(event){
             $.ajax({
-                url:"http://110.64.87.155:3000/users/register",
+                url:"http://" + container.host + "/users/register",
                 type:"POST",
                 dataType:"json",
                 data:{

@@ -1,6 +1,7 @@
 var container = new Vue({
     el:'#schedule_container',
     data: {
+        host:"localhost:3000",
         status: 1, 
         day:null,
         course:null,
@@ -23,6 +24,14 @@ var container = new Vue({
         schedule:Array(),
         analysis_msg:["还没好分析好呢"],
         schedule_msg:"号教室",
+        grouping_subject_num:[0,0,0,0,0,0],
+        grouping_subject_name:["物理","化学","生物","政治","历史","地理"],
+        grouping_subject_selection_num:0,
+        grouping_selection:0,
+        grouping_student_num:Array(),
+        grouping_student_name:Array(),
+        grouping_student_type:null,
+        grouping_student_status:0,
     },
     methods:{
         // ajax_success:function(data, callback){
@@ -37,7 +46,7 @@ var container = new Vue({
         },
         // register:function(event){
         //     $.ajax({
-        //         url:"http://localhost:3000/users/register",
+        //         url:"http://" + container.host + "/users/register",
         //         type:"POST",
         //         data:{
         //             'id':this.id,
@@ -86,7 +95,7 @@ var container = new Vue({
             exceldata.append("myfile",student);
             $.ajax({
                 type: "POST",
-                url:'http://localhost:3000/users/upload',
+                url:'http://" + container.host + "/users/upload',
                 data:exceldata,
                 cache: false,
                 contentType: false,
@@ -106,7 +115,7 @@ var container = new Vue({
         },
         limit:function(){
             $.ajax({
-                url:"http://localhost:3000/users/limit",
+                url:"http://" + container.host + "/users/limit",
                 type:"POST",
                 data:{
                     'day':this.day,
@@ -129,7 +138,7 @@ var container = new Vue({
         },
         loadlist:function(id,name,type){
             $.ajax({
-                url:"http://localhost:3000/users/get_timetable",
+                url:"http://" + container.host + "/users/get_timetable",
                 type:"GET",
                 data:{
                     'id':id,
@@ -173,7 +182,7 @@ var container = new Vue({
         },
         write_table:function(){
             $.ajax({
-                url:"http://localhost:3000/users/write_timetable",
+                url:"http://" + container.host + "/users/write_timetable",
                 type:"POST",
                 traditional:true,
                 data:{
@@ -205,7 +214,7 @@ var container = new Vue({
         },
         run:function(){
             $.ajax({
-                url:"http://localhost:3000/users/run",
+                url:"http://" + container.host + "/users/run",
                 type:"GET",
                 data:null,
                 crossDomain:true,
@@ -224,7 +233,7 @@ var container = new Vue({
         query:function(){
             
             $.ajax({
-                url:"http://localhost:3000/users/get_schedule",
+                url:"http://" + container.host + "/users/get_schedule",
                 type:"GET",
                 data:{
                     'id': this.query_number,
@@ -255,6 +264,98 @@ var container = new Vue({
                 },
                 error:this.ajax_error,
             })
+        },
+        change_subject_num:function(index, newValue){
+            if (container.grouping_subject_selection_num < 3 || (newValue == 0 && container.grouping_subject_selection_num == 3)){
+                if (newValue == 1) container.grouping_subject_selection_num++;
+                else container.grouping_subject_selection_num--;
+                container.grouping_subject_num.splice(index, 1, newValue);
+            }
+            else alert("只能选择三项呢");
+        },
+        change_student_num:function(index, newValue){
+            container.grouping_student_num.splice(index, 1, newValue);
+        },
+        grouping_query:function(){
+
+            var num_sum = 0;
+            var subjects = Array();
+            container.grouping_subject_num.forEach(function(subject_num, index, arr){
+                if (subject_num == 1) {
+                    num_sum++;
+                    subjects.push(container.grouping_subject_name[index]);
+                }
+            });
+            if (num_sum != 3) {
+                alert("需要选择三项呢");
+                return ;
+            }
+
+            $.ajax({
+                url:"http://" + container.host + "/users/get_student_list",
+                type:"GET",
+                data:{
+                    'subject_1': subjects[0],
+                    'subject_2': subjects[1],
+                    'subject_3': subjects[2]
+                },
+                crossDomain:true,
+                dataType:"json",
+                success:function(data){
+                    // console.log(data);
+                    if (data['code'] == 0){
+                        container.grouping_student_name = data.student_list;
+                        container.grouping_student_num = Array();
+                        container.grouping_student_name.forEach(function(student_name, index, arr){
+                            container.grouping_student_num.push(0);
+                        })
+                        container.grouping_student_type = data.subject_list;
+                        container.grouping_student_status = 1;
+                    }else{
+                        alert(data['msg']);
+                    }
+                },
+                error:this.ajax_error,
+            })
+        },
+        grouping_add:function(){
+            var student_list = Array();
+            container.grouping_student_num.forEach(function(student_num, index, arr){
+                if (student_num == 1) student_list.push(container.grouping_student_name[index]);
+            });
+            var data = {
+                'subject_list': container.grouping_student_type,
+                'student_list': student_list
+            };
+            var data_str = JSON.stringify(data);
+
+            $.ajax({
+                url:"http://" + container.host + "/users/send_chosen_student",
+                type:"POST",
+                data: data_str,
+                crossDomain:true,
+                dataType:"json",
+                contentType:"application/json",
+                success:function(data){
+                    if (data['code'] == 0){
+                        alert(data['msg']);
+                        container.grouping_query();
+                    }else{
+                        alert(data['msg']);
+                    }
+                },
+                error:this.ajax_error,
+            })
+        },
+        grouping_select:function(){
+            if (container.grouping_selection > container.grouping_student_num.length) {
+                alert("目前可分班人数只有" + container.grouping_student_num.length);
+                return;
+            }
+            container.grouping_student_num.forEach(function(student_num, index, arr){
+                if (index < container.grouping_selection) container.grouping_student_num.splice(index, 1, 1);
+                else container.grouping_student_num.splice(index, 1, 0);
+            })
         }
     },
     watch:{
@@ -262,7 +363,7 @@ var container = new Vue({
             if (newStatus == 3){
 
                 $.ajax({
-                    url:"http://localhost:3000/users/getlist",
+                    url:"http://" + container.host + "/users/getlist",
                     type:"GET",
                     data:null,
                     crossDomain:true,
@@ -281,7 +382,7 @@ var container = new Vue({
             else
             if (newStatus == 4){
                 $.ajax({
-                    url:"http://localhost:3000/users/get_analysis",
+                    url:"http://" + container.host + "/users/get_analysis",
                     type:"GET",
                     data:null,
                     crossDomain:true,

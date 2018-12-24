@@ -119,12 +119,40 @@ body a {
     content:"\e027"
 }
 
-.update_top{
-    margin:0 0 30px 0;
+#file_upload{
+    top:50px;
+}
+
+.button_up{
+    display: flex;
     width: 100%;
+    flex-wrap: nowrap;
+    justify-content: left;
+}
+
+.update_top{
+    margin:0 0 30px 10px;
     flex-wrap: nowrap;
     display: flex;
     justify-content: center;
+}
+
+.grouping_subject_blue{
+    color: #0599f7;
+}
+
+.grouping_subject_black{
+    color: black;
+}
+
+.grouping_student_gray{
+    background-color: rgba(196, 192, 192, 0.438);
+    color:gray;
+}
+
+.grouping_student_blue{
+    background-color: #3d91c5ee;
+    color:white;
 }
 
 .update_input_1{
@@ -136,14 +164,6 @@ body a {
     position: relative;
     width: 125px;
     margin:0 0 0 100px;
-}
-
-
-.update_bottom{
-    width: 100%;
-    flex-wrap: nowrap;
-    display: flex;
-    justify-content: center;
 }
 
 .info_item_block>li>div> input {
