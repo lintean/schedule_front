@@ -1,7 +1,7 @@
 var container = new Vue({
     el:'#schedule_container',
     data: {
-        host:"localhost:3000",
+        host:"110.64.87.155:3000",
         status: 1, 
         day:null,
         course:null,
@@ -15,7 +15,7 @@ var container = new Vue({
         list_type:0, //0为老师，1为学科
         select_val:0,
         select_list:{0:"教师不排课时间", 1:"学科不排课时间"},
-        onview:0,
+        onview:0,   
         onview_data:null,
         cell_width:0,
         cell_height:0,
@@ -95,7 +95,7 @@ var container = new Vue({
             exceldata.append("myfile",student);
             $.ajax({
                 type: "POST",
-                url:'http://" + container.host + "/users/upload',
+                url:'http://' + container.host + '/users/upload',
                 data:exceldata,
                 cache: false,
                 contentType: false,
@@ -105,7 +105,7 @@ var container = new Vue({
                 success: function(data){
                     if (data['code'] == 0) {
                         alert("已成功上传");
-                        container.status = 2;
+                        // container.status = 2;
                     } else {
                         alert(data['msg']);
                     }
@@ -300,9 +300,11 @@ var container = new Vue({
                     'subject_3': subjects[2]
                 },
                 crossDomain:true,
-                dataType:"json",
+                // dataType:"json",
                 success:function(data){
-                    // console.log(data);
+                    console.log(data);
+                    data = JSON.parse(data);
+                    console.log(data);
                     if (data['code'] == 0){
                         container.grouping_student_name = data.student_list;
                         container.grouping_student_num = Array();

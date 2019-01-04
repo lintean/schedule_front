@@ -45,13 +45,14 @@
                 </div>
             
                 <div class="update_top">
-                    <button v-on:click="upload" class="btn btn-primary btn-md">上传并到下一步</button>
+                    <button v-on:click="upload" class="btn btn-primary btn-md">上传</button>
                 </div>
             </div>
             <div class="grouping_container">
                 <h2>提前分班：在这里可以手动进行分班，也可以略过此步让计算机决定分班</h2>
                 <div>
                     <dl class="grouping_subject_container">
+                        <span></span>
                         <dt>选择三个科目：</dt>
                         <dd>
                             <span v-for="(subject_num, index) in grouping_subject_num" class="grouping_subject"
@@ -63,6 +64,7 @@
                         </dd>
                     </dl>
                     <dl class="grouping_student_container">
+                        <span></span>
                         <dt>选择分为一班的学生：</dt>
                         <dd>
                             <input type="number" placeholder="前X个" v-model.trim="grouping_selection">
@@ -75,7 +77,7 @@
                         v-on:click="change_student_num(index, 1 - student_num)"
                         v-bind:class="[student_num == 0 ? 'grouping_student_gray' : 'grouping_student_blue']"
                         v-if="grouping_student_status == 1">
-                            {{grouping_student_name[index]}}
+                            {{grouping_student_name[index][0]}} {{grouping_student_name[index][1]}}
                         </span>
                     </div>
                 </div>

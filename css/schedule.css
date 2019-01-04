@@ -150,6 +150,73 @@ body a {
     color:gray;
 }
 
+.grouping_container > h2{
+    font-size: 23px;
+    margin:0 0 30px 0;
+    display: block;
+}
+
+.grouping_container>div>dl{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: left;
+    line-height: 34px;
+}
+
+.grouping_container>div>dl>span{
+    height:34px;
+    width: 8px;
+    margin-right: 10px;
+    display: inline-block;
+    background-color: #03a2ce;
+}
+
+.grouping_container>div>dl>dt{
+    line-height: 34px;
+    font-size: 16px;
+}
+
+.grouping_container>div>dl>dd{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: left;
+    line-height: 34px;
+    font-size: 16px;
+    margin-left: 10px;
+    height: 34px;
+}
+
+.grouping_container>div>dl>dd>button{   
+    margin-left: 10px;
+    left: 100px;
+    position: relative;
+}
+
+.grouping_subject_container>dd>span{
+    line-height: 34px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.grouping_student_container>dd>input{
+    top: 4px;
+    height: 25px;
+    font-size: 16px;
+    margin-left: 10px;
+    position: relative;
+}
+
+.grouping_container>div>div{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: last;
+}
+
+.grouping_container>div>div>span{
+    margin:10px 0 0 20px;
+    border:1px #3d91c5ee solid;
+}
+
 .grouping_student_blue{
     background-color: #3d91c5ee;
     color:white;
