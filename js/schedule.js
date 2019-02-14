@@ -27,11 +27,14 @@ var container = new Vue({
         grouping_subject_num:[0,0,0,0,0,0],
         grouping_subject_name:["物理","化学","生物","政治","历史","地理"],
         grouping_subject_selection_num:0,
+        grouping_list_dh:["学号","姓名","班级","选课一","选课二","选课三","总分"],
         grouping_selection:0,
         grouping_student_num:Array(),
         grouping_student_name:Array(),
         grouping_student_type:null,
         grouping_student_status:0,
+        first_run:"first_run",
+        least_number:0,
     },
     methods:{
         // ajax_success:function(data, callback){
@@ -148,6 +151,7 @@ var container = new Vue({
                 crossDomain:true,
                 dataType:"json",
                 success:function(data){
+                    console.log(data);
                     if (data != null) {
                         //load list_onview
                         container.list_onview = data;
@@ -214,9 +218,11 @@ var container = new Vue({
         },
         run:function(){
             $.ajax({
-                url:"http://" + container.host + "/users/run",
+                url:"http://" + container.host + "/users/" + container.first_run,
                 type:"GET",
-                data:null,
+                data:{
+                    'least_number':container.least_number
+                },
                 crossDomain:true,
                 dataType:"json",
                 success:function(data){
@@ -229,6 +235,7 @@ var container = new Vue({
                 },
                 error:this.ajax_error,
             })
+            container.first_run = "repeat_run"
         },
         query:function(){
             
@@ -302,9 +309,7 @@ var container = new Vue({
                 crossDomain:true,
                 // dataType:"json",
                 success:function(data){
-                    console.log(data);
                     data = JSON.parse(data);
-                    console.log(data);
                     if (data['code'] == 0){
                         container.grouping_student_name = data.student_list;
                         container.grouping_student_num = Array();

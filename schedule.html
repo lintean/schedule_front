@@ -73,12 +73,21 @@
                         </dd>
                     </dl>
                     <div>
-                        <span v-for="(student_num,index) in grouping_student_num" class="grouping_student" 
+                        <div v-if="grouping_student_status == 1" class="grouping_list_dh">
+                            <span v-for="(dh_info,index) in grouping_list_dh">
+                                {{dh_info}}
+                            </span>
+                        </div>
+                        <div v-for="(student_num,index) in grouping_student_num" class="grouping_student" 
                         v-on:click="change_student_num(index, 1 - student_num)"
-                        v-bind:class="[student_num == 0 ? 'grouping_student_gray' : 'grouping_student_blue']"
-                        v-if="grouping_student_status == 1">
-                            {{grouping_student_name[index][0]}} {{grouping_student_name[index][1]}}
-                        </span>
+                        v-if="grouping_student_status == 1"
+                        v-bind:class="[student_num == 0 ? 'grouping_student_gray' : 'grouping_student_blue']">
+                            <span v-for="(student_info,index) in grouping_student_name[index]"
+                                v-if="index <= 6">
+                                <!-- {{grouping_student_name[index][0]}} {{grouping_student_name[index][1]}} -->
+                                {{student_info}}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -194,11 +203,22 @@
         </section>
 
         <section id="schedule" v-show="status == 4" class="content_back" style="top:50px;">
-            <h3 v-show="analysis_msg != ['还没好分析好呢']">排课预分析结果展示</h3>
-            <div id="schedule_msg">
-                <p v-for="row in analysis_msg">{{row}}</p>
+            <div>
+                <h3 v-show="analysis_msg != ['还没好分析好呢']">排课预分析结果展示</h3>
+                <div>
+                    <div id="schedule_msg">
+                        <p v-for="row in analysis_msg">{{row}}</p>
+                    </div>
+                </div>
             </div>
-            <button class="run_button" v-on:click="run">开始排课吧</button>
+            <div>
+                <h3>每班最少人数设置</h3>
+                <div>
+                    <input type="number" v-model="least_number">
+                    <button class="run_button" v-on:click="run">开始排课吧</button>
+                </div>
+
+            </div>
         </section>
 
         <section id="output_result" v-show="status == 5" class="content_back">

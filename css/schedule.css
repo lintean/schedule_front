@@ -146,8 +146,9 @@ body a {
 }
 
 .grouping_student_gray{
-    background-color: rgba(196, 192, 192, 0.438);
+    background-color: rgba(223, 221, 221, 0.192);
     color:gray;
+    border: 1px rgba(194, 192, 192, 0.459) solid;
 }
 
 .grouping_container > h2{
@@ -161,6 +162,7 @@ body a {
     flex-wrap: nowrap;
     justify-content: left;
     line-height: 34px;
+    margin-left: 5%;
 }
 
 .grouping_container>div>dl>span{
@@ -188,7 +190,7 @@ body a {
 
 .grouping_container>div>dl>dd>button{   
     margin-left: 10px;
-    left: 100px;
+    left: 300px;
     position: relative;
 }
 
@@ -200,6 +202,7 @@ body a {
 
 .grouping_student_container>dd>input{
     top: 4px;
+    width: 193px;
     height: 25px;
     font-size: 16px;
     margin-left: 10px;
@@ -212,14 +215,38 @@ body a {
     justify-content: last;
 }
 
-.grouping_container>div>div>span{
-    margin:10px 0 0 20px;
-    border:1px #3d91c5ee solid;
+.grouping_container>div>div>div{
+    margin:0 auto 0 6%;
+    /* right: 50px; */
+    width: 800px;
+    height: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+
+.grouping_list_dh{
+    background-color: #287aaa;
+    color: white;
+    border: 1px #287aaa solid;
+}
+
+.grouping_container>div>div>div>span{
+    position: relative;
+    width: 100%;
+    margin: 0 0 0 20px;
+    height: 100%;
+    line-height: 30px;
+    display: inline-block;
+    padding: 0 5px;
+    border-radius: 3px;
+    box-sizing: border-box;
 }
 
 .grouping_student_blue{
-    background-color: #3d91c5ee;
+    background-color: #6590aaea;
     color:white;
+    border:1px #6590aaea solid;
 }
 
 .update_input_1{
@@ -499,7 +526,10 @@ body a {
 
 #schedule{
     width: 100%;
-    height:100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
 }
 
 .run_button{
@@ -637,24 +667,61 @@ body a {
 }
 
 #left_contain input{
-    width: 150px
+    width: 150px;
 }
 
 #schedule_msg{
-    width: 520px;
-    height:400px;
+    width: 105%;
     position: relative;
     margin:0 auto;
-    overflow-y: scroll;
-    border: 1px solid gray
+    overflow-x: hidden;
+    border: none;
 }
 
 #schedule_msg p{
     text-align: center
 }
 
-#schedule h2, #schedule h3{
+#schedule>div>h2, #schedule>div>h3{
     text-align: center;
     clear: both;
 }
 
+#schedule>div{
+    width: 50%;
+    height: 100%;
+}
+
+#schedule>div:first-child{
+    border-right: 1px rgb(221,221,221) solid;
+}
+
+#schedule>div>div{
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
+
+#schedule>div:last-child>div:last-child{
+    position: relative;
+    top: 15%;
+}
+
+#schedule>div>div>h3{
+    display: block;
+    margin:0 auto;
+    text-align: center;
+}
+
+#schedule>div>div>input{
+    display: block;
+    width: 250px;
+    height: 35px;
+    padding: 0 15px;
+    background-color: #fff;
+    border: 0;
+    border-bottom: 1px solid #333333;
+    color: #333333;
+    line-height: 35px;
+    text-align: center;
+    margin:30px auto 0 auto;
+}
