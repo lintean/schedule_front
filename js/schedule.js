@@ -1,7 +1,7 @@
 var container = new Vue({
     el:'#schedule_container',
     data: {
-        host:"110.64.87.155:3000",
+        host:"localhost:3000",
         status: 1, 
         day:null,
         course:null,
